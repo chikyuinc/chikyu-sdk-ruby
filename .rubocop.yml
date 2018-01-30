@@ -1,0 +1,14 @@
+AsciiComments:
+ Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/MethodLength:
+  Max: 80
+
+Metrics/AbcSize:
+  Max: 25
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
