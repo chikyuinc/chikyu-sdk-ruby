@@ -12,13 +12,21 @@ module Chikyu
         resource[:login_secret_token] ? resource[:login_secret_token] : resource['login_secret_token']
 
       tokens = __login(token_name, login_token, login_secret_token)
-      credential = __create_aws_token(tokens)
 
       @chikyu_session_id = tokens['data']['session_id']
       @aws_api_key = tokens['data']['api_key']
-      @aws_credential = credential
+      @aws_credential = __create_aws_token(tokens)
 
       self
+    end
+
+    def change_organ(organ_id)
+      result = SecureResource.new(self).invoke(path: '/session/organ/change', data: {target_organ_id: organ_id})
+      aws_api_key = result['data']['api_key']
+      if aws_api_key.nil? || aws_api_key.empty?
+        raise ApiExecuteError('組織IDの変更に失敗しました')
+      end
+      @aws_api_key = aws_api_key
     end
 
     def logout
@@ -41,7 +49,7 @@ module Chikyu
       cognito_token = tokens['data']['cognito_token']
       r = Aws::STS::Client.new.assume_role_with_web_identity(role_arn: AWS_ROLE_ARN,
                                                              web_identity_token: cognito_token,
-                                                             role_session_name: 'execute-api')
+                                                             role_session_name: AWS_API_GW_SERVICE_NAME)
 
       credential = Aws::Credentials.new(r.credentials.access_key_id,
                                         r.credentials.secret_access_key,

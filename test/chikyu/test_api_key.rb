@@ -15,10 +15,7 @@ token = {
 
 session = Chikyu::Session.new.login token
 
-invoker = Chikyu::SecureResource.new(session)
+key_manager = Chikyu::ApiAuthKey.new(session)
 
-items = invoker.invoke(path: '/entity/prospects/list', data:{items_per_page: 10, page_index: 0 })
+p key_manager.create 'test01'
 
-p items
-
-session.logout

@@ -1,6 +1,6 @@
 module Chikyu
   # 認証不要のAPIを実行する
-  class OpenResource
+  class OpenResource < ApiResource
     def self.invoke(resource)
       path = resource[:path]
       data = resource[:data]
@@ -15,15 +15,7 @@ module Chikyu
                          response: 'json',
                          content_type: 'application/json')
 
-      if res.success?
-        data = JSON.parse(res.body)
-
-        raise ApiExecuteError.new(path, params, data['message']) if data['has_error']
-
-        return data
-      end
-
-      raise HttpError.new('リクエストの送信に失敗しました', res.status, res.body)
+      OpenResource.handle_response(res)
     end
   end
 end
