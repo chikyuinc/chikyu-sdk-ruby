@@ -4,6 +4,7 @@ module Chikyu
     attr_reader :chikyu_session_id
     attr_reader :aws_api_key
     attr_reader :aws_credential
+    attr_reader :aws_identity_id
 
     def login(resource)
       token_name = resource[:token_name] ? resource[:token_name] : resource['token_name']
@@ -14,6 +15,7 @@ module Chikyu
       tokens = __login(token_name, login_token, login_secret_token)
 
       @chikyu_session_id = tokens['data']['session_id']
+      @aws_identity_id = tokens['data']['cognito_identity_id']
       @aws_api_key = tokens['data']['api_key']
       @aws_credential = __create_aws_token(tokens)
 
@@ -47,9 +49,9 @@ module Chikyu
 
     def __create_aws_token(tokens)
       cognito_token = tokens['data']['cognito_token']
-      r = Aws::STS::Client.new.assume_role_with_web_identity(role_arn: AWS_ROLE_ARN,
+      r = Aws::STS::Client.new.assume_role_with_web_identity(role_arn: Config.aws_role_arn,
                                                              web_identity_token: cognito_token,
-                                                             role_session_name: AWS_API_GW_SERVICE_NAME)
+                                                             role_session_name: Config.aws_api_gw_service_name)
 
       credential = Aws::Credentials.new(r.credentials.access_key_id,
                                         r.credentials.secret_access_key,

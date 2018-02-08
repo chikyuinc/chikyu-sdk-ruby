@@ -9,17 +9,19 @@ module Chikyu
     def invoke(resource)
       path = resource[:path]
       data = resource[:data]
-      path = path[1..-1] if path.start_with?('/')
-      resource_path = "/#{ENV_NAME}/api/v2/public/#{path}"
+      resource_path = PublicResource.build_url('public', path, false)
+
+      p resource_path
+      p PublicResource.build_host
 
       params = JSON.generate(data: data)
-      res = Faraday.new(url: HOST).post resource_path, params do |req|
+      res = Faraday.new(url: PublicResource.build_host).post resource_path, params do |req|
         req.headers['Content-Type'] = 'application/json'
         req.headers['x-api-key'] = @api_key
         req.headers['x-auth-key'] = @auth_key
       end
 
-      PublicResource.handle_response res
+      PublicResource.handle_response PublicResource.build_host + resource_path, params, res
     end
 
   end

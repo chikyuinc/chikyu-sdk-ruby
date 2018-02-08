@@ -1,0 +1,13 @@
+user:
+  token_name: ''
+  email: ''
+  password: ''
+
+token:
+  login_token: ''
+  login_secret_token: ''
+  token_name: ''
+
+api_key:
+  api_key: ''
+  auth_key: ''

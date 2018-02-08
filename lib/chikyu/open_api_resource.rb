@@ -5,9 +5,7 @@ module Chikyu
       path = resource[:path]
       data = resource[:data]
 
-      path = path[1..-1] if path.start_with?('/')
-
-      url = "#{HOST}/#{ENV_NAME}/api/v2/open/#{path}"
+      url = OpenResource.build_url('open', path)
       params = JSON.generate(data: data)
       res = Faraday.post(url,
                          params,
@@ -15,7 +13,7 @@ module Chikyu
                          response: 'json',
                          content_type: 'application/json')
 
-      OpenResource.handle_response(res)
+      OpenResource.handle_response url, params, res
     end
   end
 end

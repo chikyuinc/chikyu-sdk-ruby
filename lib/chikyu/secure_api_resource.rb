@@ -8,37 +8,42 @@ module Chikyu
     def invoke(resource)
       path = resource[:path]
       data = resource[:data]
-      path = path[1..-1] if path.start_with?('/')
-      resource_path = "/#{ENV_NAME}/api/v2/secure/#{path}"
+      resource_path = SecureResource.build_url('secure', path, false)
 
       conn = connection
       res = send resource_path, data, conn
 
-      SecureResource.handle_response res
+      SecureResource.handle_response PublicResource.build_host + resource_path, data, res
     end
 
     private
 
     def send(resource_path, data, conn)
-      conn.post resource_path, JSON.generate(session_id: @session.chikyu_session_id, data: data) do |req|
+      params = {
+        session_id: @session.chikyu_session_id,
+        data: data
+      }
+      params[:identity_id] = @session.aws_identity_id if Config.mode == 'local'
+
+      conn.post resource_path, JSON.generate(params) do |req|
         req.headers['Content-Type'] = 'application/json'
         req.headers['x-api-key'] = @session.aws_api_key
       end
     end
 
     def connection
-      Faraday.new(url: HOST) do |faraday|
+      Faraday.new(url: SecureResource.build_host) do |faraday|
         faraday.request :aws_signers_v4,
                         credentials: @session.aws_credential,
-                        service_name: AWS_API_GW_SERVICE_NAME,
-                        region: AWS_REGION
+                        service_name: Config.aws_api_gw_service_name,
+                        region: Config.aws_region
 
         faraday.response :json, content_type: /\bjson\b/
-        faraday.response :raise_error
+        # faraday.response :raise_error
         faraday.adapter Faraday.default_adapter
 
         # デバッグ出力
-        faraday.response :logger if WITH_DEBUG
+        faraday.response :logger if Config.with_debug
       end
     end
   end
