@@ -1,6 +1,6 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'aws-sdk', '~> 2'
-gem 'faraday', '~> 0.13.1'
-gem 'faraday_middleware', '~> 0.12.2'
-gem 'faraday_middleware-aws-signers-v4', '~> 0.1.9'
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+
+# Specify your gem's dependencies in chikyu.gemspec
+gemspec
