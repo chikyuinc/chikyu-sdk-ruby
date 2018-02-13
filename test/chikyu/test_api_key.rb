@@ -1,7 +1,8 @@
 require 'yaml'
 require '../../lib/chikyu'
+require '../chikyu/test_config'
 
-config = YAML.load_file '../config.yml'
+config = Chikyu::TestConfig.load
 
 # token_name = config['user']['token_name']
 # token = Chikyu::SecurityToken.create token_name, config['user']['email'], config['user']['password']

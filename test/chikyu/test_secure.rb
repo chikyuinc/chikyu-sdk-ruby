@@ -4,10 +4,6 @@ require '../chikyu/test_config'
 
 config = Chikyu::TestConfig.load
 
-# token_name = config['user']['token_name']
-# token = Chikyu::SecurityToken.create token_name, config['user']['email'], config['user']['password']
-# token['token_name'] = token_name
-
 token = {
   token_name: config['token']['token_name'],
   login_token: config['token']['login_token'],
@@ -16,12 +12,35 @@ token = {
 
 session = Chikyu::Session.new.login token
 
-session.change_organ 1460
-
+session.change_organ 1
+#
 resource = Chikyu::SecureResource.new(session)
+#
+# items = resource.invoke(path: '/entity/prospects/list', data: { items_per_page: 10, page_index: 0 })
 
-items = resource.invoke(path: '/entity/prospects/list', data: { items_per_page: 10, page_index: 0 })
+print "ログインしました"
 
-puts JSON.pretty_generate(items)
+items = resource.invoke(path: '/entity/business_discussions/aggregate', data: {
+  group_list: [{field_name: 'situation_div', grouping_type: ''}],
+  target_list: [{field_name: '__count__', aggregation_type: ''}]
+})
+items['data']['aggregation_result'].each {|data|
+  p "#{data['series_name']}:#{data['values'][0]['value']}"
+}
+p "********************"
 
-session.logout
+items = resource.invoke(path: '/entity/business_discussions/aggregate', data: {
+    group_list: [{field_name: 'situation_div', grouping_type: ''}],
+    target_list: [{field_name: 'amount', aggregation_type: 'sum'}]
+})
+items['data']['aggregation_result'].each {|data|
+  p "#{data['series_name']}:#{data['values'][0]['value']}"
+}
+
+
+# puts JSON.pretty_generate(items)
+
+# items = resource.invoke(path: '/entity/prospects/search_definitions/list', data: {})
+
+
+# session.logout

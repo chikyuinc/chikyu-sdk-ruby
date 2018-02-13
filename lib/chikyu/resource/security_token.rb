@@ -1,11 +1,12 @@
 module Chikyu
   # 認証トークンの生成/破棄を行う
   class SecurityToken
-    def self.create(token_name, email, password)
+    def self.create(token_name, email, password, duration=nil)
       item = OpenResource.invoke(path: '/session/token/create',
                                  data: {token_name: token_name,
                                         email: email,
-                                        password: password})
+                                        password: password,
+                                        duration: duration})
       item['data']
     end
 

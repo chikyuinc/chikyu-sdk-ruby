@@ -1,7 +1,8 @@
 require 'yaml'
 require '../../lib/chikyu'
+require '../chikyu/test_config'
 
-config = YAML.load_file '../config.yml'
+config = Chikyu::TestConfig.load
 
 invoker = Chikyu::PublicResource.new(config['api_key']['api_key'], config['api_key']['auth_key'])
 

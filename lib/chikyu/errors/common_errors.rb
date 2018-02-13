@@ -29,7 +29,7 @@ module Chikyu
       @message = message
 
       p 'error_api_path: ' + api_path
-      p 'error_api_param:' + params
+      p 'error_api_param:' + params.to_s
     end
 
     def to_s
