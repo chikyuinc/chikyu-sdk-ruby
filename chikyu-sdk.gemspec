@@ -5,7 +5,7 @@ require "chikyu/sdk/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "chikyu-sdk"
-  spec.version       = ChikyuSdk::VERSION
+  spec.version       = Chikyu::Sdk::VERSION
   spec.authors       = ["iskou9821"]
   spec.email         = ["ishikawa_kousuke@chikyu.net"]
 

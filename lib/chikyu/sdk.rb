@@ -21,12 +21,14 @@ require 'chikyu/sdk/resource/session'
 require 'chikyu/sdk/resource/api_key'
 
 
-module ChikyuSdk
+module Chikyu
+  module Sdk
 
+  end
 end
 
-Aws.config[:region] = ChikyuSdk::Config.aws_region
-if ChikyuSdk::Config.with_debug
+Aws.config[:region] = Chikyu::Sdk::Config.aws_region
+if Chikyu::Sdk::Config.with_debug
   Aws.config[:logger] = Logger.new($stdout)
   Aws.config[:log_level] = :debug
 end

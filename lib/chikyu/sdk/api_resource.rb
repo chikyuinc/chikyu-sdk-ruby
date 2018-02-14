@@ -1,4 +1,4 @@
-module ChikyuSdk
+module Chikyu::Sdk
   # API抽象クラス
   class ApiResource
     def self.handle_response(path, params, res)

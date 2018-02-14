@@ -1,4 +1,4 @@
-module ChikyuSdk
+module Chikyu::Sdk
   # セキュリティトークンを元にログイン / ログアウトを行う
   class Session
     attr_reader :chikyu_session_id

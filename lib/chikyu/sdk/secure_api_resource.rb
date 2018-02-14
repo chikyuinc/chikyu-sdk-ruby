@@ -1,4 +1,4 @@
-module ChikyuSdk
+module Chikyu::Sdk
   # ログイン認証の必要なAPIを実行する
   class SecureResource < ApiResource
     def initialize(session)
