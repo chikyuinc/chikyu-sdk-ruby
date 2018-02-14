@@ -1,4 +1,4 @@
-module Chikyu
+module ChikyuSdk
   # 環境設定関連
   class Config
     def self.aws_region

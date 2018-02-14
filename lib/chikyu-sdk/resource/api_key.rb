@@ -1,4 +1,4 @@
-module Chikyu
+module ChikyuSdk
   # APIキーの作成・削除を行う
   class ApiAuthKey
     def initialize(session)

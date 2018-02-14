@@ -1,8 +1,8 @@
 require 'yaml'
-require '../../lib/chikyu'
-require '../chikyu/test_config'
+require '../../lib/chikyu-sdk'
+require '../chikyu-sdk/test_config'
 
-config = Chikyu::TestConfig.load
+config = ChikyuSdk::TestConfig.load
 
 token = {
   token_name: config['token']['token_name'],
@@ -10,11 +10,11 @@ token = {
   login_secret_token: config['token']['login_secret_token']
 }
 
-session = Chikyu::Session.new.login token
+session = ChikyuSdk::Session.new.login token
 
 session.change_organ 1
 #
-resource = Chikyu::SecureResource.new(session)
+resource = ChikyuSdk::SecureResource.new(session)
 #
 # items = resource.invoke(path: '/entity/prospects/list', data: { items_per_page: 10, page_index: 0 })
 

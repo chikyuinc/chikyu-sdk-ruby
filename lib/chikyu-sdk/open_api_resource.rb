@@ -1,4 +1,4 @@
-module Chikyu
+module ChikyuSdk
   # 認証不要のAPIを実行する
   class OpenResource < ApiResource
     def self.invoke(resource)

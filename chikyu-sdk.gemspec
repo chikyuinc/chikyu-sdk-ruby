@@ -1,11 +1,11 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "chikyu/version"
+require "chikyu-sdk/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "chikyu"
-  spec.version       = Chikyu::VERSION
+  spec.name          = "chikyu-sdk"
+  spec.version       = ChikyuSdk::VERSION
   spec.authors       = ["iskou9821"]
   spec.email         = ["ishikawa_kousuke@chikyu.net"]
 

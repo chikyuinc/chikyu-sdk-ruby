@@ -1,4 +1,4 @@
-module Chikyu
+module ChikyuSdk
   # 認証トークンの生成/破棄を行う
   class SecurityToken
     def self.create(token_name, email, password, duration=nil)

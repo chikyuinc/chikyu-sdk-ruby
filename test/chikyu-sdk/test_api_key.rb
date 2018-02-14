@@ -1,8 +1,8 @@
 require 'yaml'
-require '../../lib/chikyu'
-require '../chikyu/test_config'
+require '../../lib/chikyu-sdk'
+require '../chikyu-sdk/test_config'
 
-config = Chikyu::TestConfig.load
+config = ChikyuSdk::TestConfig.load
 
 # token_name = config['user']['token_name']
 # token = Chikyu::SecurityToken.create token_name, config['user']['email'], config['user']['password']
@@ -14,9 +14,9 @@ token = {
     login_secret_token: config['token']['login_secret_token']
 }
 
-session = Chikyu::Session.new.login token
+session = ChikyuSdk::Session.new.login token
 
-key_manager = Chikyu::ApiAuthKey.new(session)
+key_manager = ChikyuSdk::ApiAuthKey.new(session)
 
 p key_manager.create 'test01'
 

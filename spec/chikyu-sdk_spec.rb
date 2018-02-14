@@ -1,4 +1,4 @@
-RSpec.describe Chikyu do
+RSpec.describe ChikyuSdk do
   it "has a version number" do
     expect(Chikyu::VERSION).not_to be nil
   end

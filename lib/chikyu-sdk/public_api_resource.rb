@@ -1,4 +1,4 @@
-module Chikyu
+module ChikyuSdk
   # APIキーのみ必要なAPIを実行する
   class PublicResource < ApiResource
     def initialize(api_key, auth_key)
