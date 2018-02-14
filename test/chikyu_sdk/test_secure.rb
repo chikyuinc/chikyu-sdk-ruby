@@ -1,6 +1,6 @@
 require 'yaml'
-require '../../lib/chikyu-sdk'
-require '../chikyu-sdk/test_config'
+require '../../lib/chikyu/sdk'
+require '../chikyu_sdk/test_config'
 
 config = ChikyuSdk::TestConfig.load
 
