@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "chikyu-sdk"
+require "chikyu/sdk"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
