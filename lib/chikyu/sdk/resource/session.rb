@@ -6,20 +6,13 @@ module Chikyu::Sdk
     attr_reader :aws_credential
     attr_reader :aws_identity_id
 
-    def login(resource)
+    def self.login(resource)
+      s = new
       token_name = resource[:token_name] ? resource[:token_name] : resource['token_name']
       login_token = resource[:login_token] ? resource[:login_token] : resource['login_token']
       login_secret_token =
         resource[:login_secret_token] ? resource[:login_secret_token] : resource['login_secret_token']
-
-      tokens = __login(token_name, login_token, login_secret_token)
-
-      @chikyu_session_id = tokens['data']['session_id']
-      @aws_identity_id = tokens['data']['cognito_identity_id']
-      @aws_api_key = tokens['data']['api_key']
-      @aws_credential = __create_aws_token(tokens)
-
-      self
+      s.__send__(:__login_invoke, token_name, login_token, login_secret_token)
     end
 
     def change_organ(organ_id)
@@ -40,11 +33,20 @@ module Chikyu::Sdk
 
     private
 
-    def __login(token_name, login_token, login_secret_token)
-      OpenResource.invoke(path: '/session/login',
-                          data: {token_name: token_name,
-                                 login_token: login_token,
-                                 login_secret_token: login_secret_token})
+    def __login_invoke(token_name, login_token, login_secret_token)
+      tokens = OpenResource.invoke(path: '/session/login',
+                                   data: {
+                                     token_name: token_name,
+                                     login_token: login_token,
+                                     login_secret_token: login_secret_token
+                                   })
+
+      @chikyu_session_id = tokens['data']['session_id']
+      @aws_identity_id = tokens['data']['cognito_identity_id']
+      @aws_api_key = tokens['data']['api_key']
+      @aws_credential = __create_aws_token(tokens)
+
+      self
     end
 
     def __create_aws_token(tokens)

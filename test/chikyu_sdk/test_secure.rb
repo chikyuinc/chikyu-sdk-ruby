@@ -10,7 +10,7 @@ token = {
   login_secret_token: config['token']['login_secret_token']
 }
 
-session = Chikyu::Sdk::Session.new.login token
+session = Chikyu::Sdk::Session.login token
 
 session.change_organ 1
 #
