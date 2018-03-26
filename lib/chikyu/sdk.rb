@@ -10,7 +10,7 @@ require 'faraday_middleware/aws_signers_v4'
 
 require 'chikyu/sdk/errors/common_errors'
 
-require 'chikyu/sdk/config/config'
+require 'chikyu/sdk/config/api_config'
 require 'chikyu/sdk/api_resource'
 require 'chikyu/sdk/open_api_resource'
 require 'chikyu/sdk/public_api_resource'
@@ -27,8 +27,8 @@ module Chikyu
   end
 end
 
-Aws.config[:region] = Chikyu::Sdk::Config.aws_region
-if Chikyu::Sdk::Config.with_debug
+Aws.config[:region] = Chikyu::Sdk::ApiConfig.aws_region
+if Chikyu::Sdk::ApiConfig.with_debug
   Aws.config[:logger] = Logger.new($stdout)
   Aws.config[:log_level] = :debug
 end

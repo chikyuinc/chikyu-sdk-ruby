@@ -7,7 +7,7 @@ module Chikyu::Sdk
                                         email: email,
                                         password: password,
                                         duration: duration})
-      item['data']
+      item
     end
 
     def self.renew(token_name, login_token, login_secret_token)
@@ -15,7 +15,7 @@ module Chikyu::Sdk
                           data: {token_name: token_name,
                                  login_token: login_token,
                                  login_secret_token: login_secret_token})
-      item['data']
+      item
     end
 
     def self.revoke(token_name, login_token, login_secret_token)
@@ -23,7 +23,7 @@ module Chikyu::Sdk
                           data: {token_name: token_name,
                                  login_token: login_token,
                                  login_secret_token: login_secret_token})
-      item['data']
+      item
     end
   end
 end

@@ -6,15 +6,15 @@ module Chikyu::Sdk
     end
 
     def create(api_key_name, role_id=nil, allowed_hosts=nil)
-      res = SecureResource.new(@session).invoke(path: '/system/api_auth_key/create', data:
-          { api_key_name: api_key_name, role_id: role_id, allowed_hosts: allowed_hosts })
-      res['data']
+      SecureResource.new(@session).invoke(path: '/system/api_auth_key/create',
+                                          data: { api_key_name: api_key_name,
+                                                  role_id: role_id,
+                                                  allowed_hosts: allowed_hosts })
     end
 
     def revoke(auth_key_id)
-      res = SecureResource.new(@session).invoke(path: '/system/api_auth_key/revoke', data:
-          { _id: auth_key_id })
-      !res['has_error']
+      SecureResource.new(@session).invoke(path: '/system/api_auth_key/revoke',
+                                          data: { _id: auth_key_id })
     end
 
     def list

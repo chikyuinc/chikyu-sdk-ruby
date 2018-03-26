@@ -20,10 +20,10 @@ module Chikyu::Sdk
 
     def send(resource_path, data, conn)
       params = {
-        session_id: @session.chikyu_session_id,
+        session_id: @session.session_id,
         data: data
       }
-      params[:identity_id] = @session.aws_identity_id if Config.mode == 'local'
+      params[:identity_id] = @session.aws_identity_id if ApiConfig.mode == 'local'
 
       conn.post resource_path, JSON.generate(params) do |req|
         req.headers['Content-Type'] = 'application/json'
@@ -35,15 +35,15 @@ module Chikyu::Sdk
       Faraday.new(url: SecureResource.build_host) do |faraday|
         faraday.request :aws_signers_v4,
                         credentials: @session.aws_credential,
-                        service_name: Config.aws_api_gw_service_name,
-                        region: Config.aws_region
+                        service_name: ApiConfig.aws_api_gw_service_name,
+                        region: ApiConfig.aws_region
 
-        faraday.response :json, content_type: /\bjson\b/
+        faraday.response :json, parser_options: { symbolize_names: true }, content_type: /\bjson\b/
         # faraday.response :raise_error
         faraday.adapter Faraday.default_adapter
 
         # デバッグ出力
-        faraday.response :logger if Config.with_debug
+        faraday.response :logger if ApiConfig.with_debug
       end
     end
   end
