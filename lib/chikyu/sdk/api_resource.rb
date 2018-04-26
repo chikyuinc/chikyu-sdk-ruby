@@ -6,16 +6,17 @@ module Chikyu::Sdk
         body = res.body
         data = body.instance_of?(String) ? JSON.parse(body, symbolize_names: true) : body
 
-        raise ApiExecuteError.new(path, params, data[:message]) if data[:has_error]
+        if data[:has_error]
+          raise ApiExecuteError, "APIの実行に失敗: message=#{data[:message]} / path=#{path} / params=#{params}}"
+        end
 
         return data[:data]
       else
         p "response_code: #{res.status}"
-        body = JSON.parse(res.body)
-        p "response_body: #{body}"
+        p "response_body: #{res.body}"
       end
 
-      raise HttpError.new('リクエストの送信に失敗しました', res.status, res.body)
+      raise HttpError, "リクエストの送信に失敗しました: code=#{res.status} / body=#{res.body}"
     end
 
     def self.build_url(api_class, api_path, with_host=true)

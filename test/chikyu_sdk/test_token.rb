@@ -2,7 +2,7 @@ require 'yaml'
 require '../../lib/chikyu/sdk'
 require '../chikyu_sdk/test_config'
 
-config = Chikyu::Sdk::TestConfig.load 'local'
+config = Chikyu::Sdk::TestConfig.load 'devdc'
 
 token_name = config['user']['token_name']
 

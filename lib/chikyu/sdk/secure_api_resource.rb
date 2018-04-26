@@ -23,7 +23,7 @@ module Chikyu::Sdk
         session_id: @session.session_id,
         data: data
       }
-      params[:identity_id] = @session.aws_identity_id if ApiConfig.mode == 'local'
+      params[:identity_id] = @session.aws_identity_id if ApiConfig.mode == 'local' || ApiConfig.mode == 'docker'
 
       conn.post resource_path, JSON.generate(params) do |req|
         req.headers['Content-Type'] = 'application/json'

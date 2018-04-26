@@ -2,7 +2,7 @@ require 'yaml'
 require '../../lib/chikyu/sdk'
 require '../chikyu_sdk/test_config'
 
-config = Chikyu::Sdk::TestConfig.load 'local'
+config = Chikyu::Sdk::TestConfig.load 'devdc'
 
 token = {
   token_name: config['token']['token_name'],
@@ -12,6 +12,8 @@ token = {
 
 session = Chikyu::Sdk::Session.login token
 print 'ログインしました'
+
+session.change_organ 90
 
 resource = Chikyu::Sdk::SecureResource.new(session)
 
@@ -42,7 +44,7 @@ puts str
 s = Chikyu::Sdk::Session.from_json(str)
 resource = Chikyu::Sdk::SecureResource.new(s)
 
-items = resource.invoke(path: '/entity/prospects/search_definitions/list', data: {})
+items = resource.invoke(path: '/entity/prospects/field_definitions/list', data: {})
 puts JSON.pretty_generate(items)
 
 s.logout
