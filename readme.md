@@ -1,43 +1,68 @@
 # Chikyu
+## インストール
+rubygemsでは公開されていないため、以下の手順でインストールを行ってください。
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/chikyu`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'chikyu'
+### bundlerを利用
+#### Gemfileに以下の記述を追加
+```
+gem 'chikyu-sdk', :git => 'https://github.com/chikyuinc/chikyu-sdk-ruby.git', :branch => "master"
 ```
 
-And then execute:
+#### インストール & 確認
+```
+bundle install
+bundle info chikyu-sdk
+```
 
-    $ bundle
+#### 実行
+```
+bundle exec ruby [該当のファイル].rb
+```
 
-Or install it yourself as:
+### gemコマンドを利用
+```
+gem install specific_install
+gem specific_install -l https://github.com/chikyuinc/chikyu-sdk-ruby.git -b master
+```
 
-    $ gem install chikyu
+## SDKを利用する
+### テスト段階でのサンプルコード
+```
+require 'chikyu/sdk'
 
-## Usage
+# 2018/05/14現在、まだ本番環境が未構築であるため、こちらのテスト用の環境名を指定して下さい。
+Chikyu::Sdk::ApiConfig.mode = 'devdc'
 
-TODO: Write usage instructions here
+# セッションの生成
+session = Chikyu::Sdk::Session.login(
+          token_name: '',
+          login_token: '',
+          login_secret_token: ''
+        )
 
-## Development
+# APIの呼び出し
+invoker = Chikyu::Sdk::SecureResource.new session
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+p invoker.invoke path: '/entity/companies/list', data: {items_per_page: 10, page_index: 0}
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## 詳細
+### class1(APIキーのみで呼び出し可能)
+#### APIトークンを生成する
 
-## Contributing
+#### 呼び出しを実行する
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/chikyu. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+### class2(APIトークンからセッションを生成)
+#### APIトークンを生成する
 
-## License
+#### ログインしてセッションを生成する
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
-## Code of Conduct
+#### 呼び出しを実行する
 
-Everyone interacting in the Chikyu project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/chikyu/blob/master/CODE_OF_CONDUCT.md).
+
+## APIリスト
+こちらをご覧ください。
+
+http://dev-docs.chikyu.mobi/
+
