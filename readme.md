@@ -1,4 +1,16 @@
-# Chikyu
+# chikyu-ruby-sdk
+## 概要
+**内容は全てリリース前のものであり、予告なく変更となる場合があります**
+
+ちきゅうのWeb APIをRubyから利用するためのライブラリです。
+
+SDKの開発にはRuby 2.2.1を利用しています。
+
+## APIの基本仕様について
+こちらのレポジトリをご覧ください
+
+https://github.com/chikyuinc/chikyu-api-specification
+
 ## インストール
 rubygemsでは公開されていないため、以下の手順でインストールを行ってください。
 
@@ -33,17 +45,18 @@ require 'chikyu/sdk'
 # 2018/05/14現在、まだ本番環境が未構築であるため、こちらのテスト用の環境名を指定して下さい。
 Chikyu::Sdk::ApiConfig.mode = 'devdc'
 
-# セッションの生成
+# セッションの生成(トークンを事前に生成しておく)
 session = Chikyu::Sdk::Session.login(
-          token_name: '',
-          login_token: '',
-          login_secret_token: ''
-        )
+  token_name: 'token_name',
+  login_token: 'login_token',
+  login_secret_token: 'login_secret_token'
+)
 
 # APIの呼び出し
 invoker = Chikyu::Sdk::SecureResource.new session
 
 p invoker.invoke path: '/entity/companies/list', data: {items_per_page: 10, page_index: 0}
+
 ```
 
 ## 詳細
@@ -52,28 +65,44 @@ p invoker.invoke path: '/entity/companies/list', data: {items_per_page: 10, page
 ```token.rb
 require 'chikyu/sdk'
 
+# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
+Chikyu::Sdk::ApiConfig.mode = 'devdc'
+
 # 下記のclass2 apiを利用し、予めトークンを生成しておく。
-session = Chikyu::Sdk::Session.login token
-key_manager = Chikyu::Sdk::ApiAuthKey.new session
+session = Chikyu::Sdk::Session.login(
+  token_name: 'token_name',
+  login_token: 'login_token',
+  login_secret_token: 'login_secret_token'
+)
+
+invoker = Chikyu::Sdk::SecureResource.new session
 
 # 引数にキー名称と関連付けるロールのIDを指定する。
 # 関連付けるロールは、予め作成しておく。
-key = key_manager.create 'test01', 1234
+key = invoker.invoke(
+  path: '/system/api_auth_key/create',
+  data: {
+    api_key_name: 'key_name',
+    role_id: 1234,
+    allowed_hosts: []
+})
 
 # 生成したキーをファイルなどに保存しておく。
 p key
-
 ```
 
 #### 呼び出しを実行する
 ```invoke_public.rb
 require 'chikyu/sdk'
 
+# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
+Chikyu::Sdk::ApiConfig.mode = 'devdc'
+
 invoker = Chikyu::Sdk::PublicResource.new('api_key', 'auth_key')
 
 # path=APIのパスを指定(詳細については、ページ最下部のリンクを参照)
 # data=リクエスト用JSONの「data」フィールド内の項目を指定
-res = invoker.invoke path: '/some/api' data: {'field1': 'data'}
+res = invoker.invoke path: '/entity/prospects/list', data: {page_index:0, items_per_page:10}
 
 # レスポンス用JSONの「data」フィールド内の項目が返ってくる。
 # APIの実行に失敗(エラーが発生 or has_errorがtrue)の場合は例外が発生する。
@@ -84,6 +113,9 @@ p res
 #### APIトークンを生成する
 ```create_token.rb
 require 'chikyu/sdk'
+
+# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
+Chikyu::Sdk::ApiConfig.mode = 'devdc'
 
 # ・トークン名称(任意)
 # ・ちきゅうのログイン用メールアドレス
@@ -99,6 +131,9 @@ p token
 ```create_session.rb
 require 'chikyu/sdk'
 
+# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
+Chikyu::Sdk::ApiConfig.mode = 'devdc'
+
 # 上で生成したトークン情報を保存しておき、展開する
 token = {
   token_name: '',
@@ -107,7 +142,7 @@ token = {
 }
 
 # セッションを生成する
-session = Chikyu::Sdk::SecureResource.new token
+session = Chikyu::Sdk::Session.login token
 
 # セッション情報のオブジェクトをローカル変数などとして保存し、呼び出しに利用する
 p session
@@ -117,18 +152,27 @@ text = session.to_s
 
 # セッション情報をテキストから復元する
 session = Chikyu::Sdk::Session.from_json(text)
+
+# 処理対象の組織を変更する
+session.change_organ 1234 # 変更対象の組織IDを指定する
+
+# ログアウトする
+session.logout
 ```
 
 
 #### 呼び出しを実行する
 ```invoke_secure.rb
 
+# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
+Chikyu::Sdk::ApiConfig.mode = 'devdc'
+
 # 上で生成したセッション情報を元に、API呼び出し用のリソースを生成する
 invoker = Chikyu::Sdk::SecureResource.new session
 
 # path=APIのパスを指定(詳細については、ページ最下部のリンクを参照)
 # data=リクエスト用JSONの「data」フィールド内の項目を指定
-res = invoker.invoke path: '/some/api' data: {'field1': 'data'}
+res = invoker.invoke path: '/entity/prospects/list', data: {page_index:0, items_per_page:10}
 
 # レスポンス用JSONの「data」フィールド内の項目が返ってくる。
 # APIの実行に失敗(エラーが発生 or has_errorがtrue)の場合は例外が発生する。
