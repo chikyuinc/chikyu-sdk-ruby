@@ -1,4 +1,4 @@
-# chikyu-ruby-sdk
+# chikyu-sdk-ruby
 ## 概要
 **内容は全てリリース前のものであり、予告なく変更となる場合があります**
 
@@ -61,14 +61,14 @@ p invoker.invoke path: '/entity/companies/list', data: {items_per_page: 10, page
 
 ## 詳細
 ### class1(APIキーのみで呼び出し可能)
-#### APIトークンを生成する
+#### APIキーを生成する
 ```token.rb
 require 'chikyu/sdk'
 
 # 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
 Chikyu::Sdk::ApiConfig.mode = 'devdc'
 
-# 下記のclass2 apiを利用し、予めトークンを生成しておく。
+# 後述のclass2 apiを利用し、予めログイン用の「認証トークン」(＊ここで言う「APIキー」とは別)を生成しておく。
 session = Chikyu::Sdk::Session.login(
   token_name: 'token_name',
   login_token: 'login_token',
@@ -98,6 +98,7 @@ require 'chikyu/sdk'
 # 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
 Chikyu::Sdk::ApiConfig.mode = 'devdc'
 
+# APIキーを指定してインスタンスを生成
 invoker = Chikyu::Sdk::PublicResource.new('api_key', 'auth_key')
 
 # path=APIのパスを指定(詳細については、ページ最下部のリンクを参照)
@@ -109,8 +110,8 @@ res = invoker.invoke path: '/entity/prospects/list', data: {page_index:0, items_
 p res
 ```
 
-### class2(APIトークンからセッションを生成)
-#### APIトークンを生成する
+### class2(認証トークンからセッションを生成)
+#### 認証トークンを生成する
 ```create_token.rb
 require 'chikyu/sdk'
 
