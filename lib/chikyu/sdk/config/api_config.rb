@@ -38,7 +38,11 @@ module Chikyu::Sdk
     end
 
     def self.aws_role_arn
-      'arn:aws:iam::171608821407:role/Cognito_Chikyu_Normal_Id_PoolAuth_Role'.freeze
+      if @@mode == 'docker' || @@mode == 'local'
+        'arn:aws:iam::527083274078:role/Cognito_ChikyuDevLocalAuth_Role'.freeze
+      else
+        'arn:aws:iam::171608821407:role/Cognito_Chikyu_Normal_Id_PoolAuth_Role'.freeze
+      end
     end
 
     def self.aws_api_gw_service_name
