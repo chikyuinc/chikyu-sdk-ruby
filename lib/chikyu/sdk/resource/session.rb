@@ -44,6 +44,7 @@ module Chikyu::Sdk
           access_key_id: @aws_credential.access_key_id,
           secret_access_key: @aws_credential.secret_access_key,
           session_token: @aws_credential.session_token,
+          duration_seconds: 43200
         },
         aws_identity_id: @aws_identity_id,
       }
