@@ -38,6 +38,9 @@ module Chikyu::Sdk
     end
 
     def self.aws_role_arn
+      if @@mode == 'prod'
+        'arn:aws:iam::171608821407:role/Cognito_chikyu_PROD_idpoolAuth_Role'.freeze
+      end
       if @@mode == 'docker' || @@mode == 'local'
         'arn:aws:iam::527083274078:role/Cognito_ChikyuDevLocalAuth_Role'.freeze
       else
