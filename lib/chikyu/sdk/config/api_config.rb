@@ -4,13 +4,13 @@ module Chikyu::Sdk
     @@mode = 'prod'
 
     HOSTS = {
-      local: 'localhost:9090',
+      local: 'localhost:9090',
       docker: 'dev-python:9090',
       devdc: 'gateway.chikyu.mobi',
       dev01: 'gateway.chikyu.mobi',
       dev02: 'gateway.chikyu.mobi',
       hotfix01: 'gateway.chikyu.mobi',
-      prod: 'api.chikyu.net'
+      prod: 'apiv2.chikyu.mobi'
     }.freeze
 
     PROTOCOLS = {
@@ -30,7 +30,7 @@ module Chikyu::Sdk
       dev01: 'dev01',
       dev02: 'dev02',
       hotfix01: 'hotfix01',
-      prod: ''
+      prod: 'prod'
     }.freeze
 
     def self.aws_region
