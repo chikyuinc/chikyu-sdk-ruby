@@ -23,10 +23,6 @@ module Chikyu::Sdk
       res = with_host ? build_host : ''
 
       path = api_path.start_with?('/') ? api_path[1..-1] : api_path
-      if ApiConfig.mode == 'prod'
-        return "#{res}/v2/#{api_class}/#{path}"
-      end
-
       env = ApiConfig.env_name.empty? ? '' : "/#{ApiConfig.env_name}"
       "#{res}#{env}/api/v2/#{api_class}/#{path}"
     end

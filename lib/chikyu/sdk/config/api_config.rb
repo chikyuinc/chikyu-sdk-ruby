@@ -10,7 +10,7 @@ module Chikyu::Sdk
       dev01: 'gateway.chikyu.mobi',
       dev02: 'gateway.chikyu.mobi',
       hotfix01: 'gateway.chikyu.mobi',
-      prod: 'apiv2.chikyu.mobi'
+      prod: 'endpoint.chikyu.net'
     }.freeze
 
     PROTOCOLS = {
@@ -30,7 +30,7 @@ module Chikyu::Sdk
       dev01: 'dev01',
       dev02: 'dev02',
       hotfix01: 'hotfix01',
-      prod: 'prod'
+      prod: ''
     }.freeze
 
     def self.aws_region
@@ -40,8 +40,7 @@ module Chikyu::Sdk
     def self.aws_role_arn
       if @@mode == 'prod'
         'arn:aws:iam::171608821407:role/Cognito_chikyu_PROD_idpoolAuth_Role'.freeze
-      end
-      if @@mode == 'docker' || @@mode == 'local'
+      elsif @@mode == 'docker' || @@mode == 'local'
         'arn:aws:iam::527083274078:role/Cognito_ChikyuDevLocalAuth_Role'.freeze
       else
         'arn:aws:iam::171608821407:role/Cognito_Chikyu_Normal_Id_PoolAuth_Role'.freeze
