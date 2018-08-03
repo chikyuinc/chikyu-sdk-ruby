@@ -1,7 +1,5 @@
 # chikyu-sdk-ruby
 ## 概要
-**内容は全てリリース前のものであり、予告なく変更となる場合があります**
-
 ちきゅうのWeb APIをRubyから利用するためのライブラリです。
 
 SDKの開発にはRuby 2.2.1を利用しています。
@@ -42,9 +40,6 @@ gem specific_install -l https://github.com/chikyuinc/chikyu-sdk-ruby.git -b mast
 ```test.rb
 require 'chikyu/sdk'
 
-# 2018/05/14現在、まだ本番環境が未構築であるため、こちらのテスト用の環境名を指定して下さい。
-Chikyu::Sdk::ApiConfig.mode = 'devdc'
-
 # セッションの生成(トークンを事前に生成しておく)
 session = Chikyu::Sdk::Session.login(
   token_name: 'token_name',
@@ -64,9 +59,6 @@ p invoker.invoke path: '/entity/companies/list', data: {items_per_page: 10, page
 #### APIキーを生成する
 ```token.rb
 require 'chikyu/sdk'
-
-# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
-Chikyu::Sdk::ApiConfig.mode = 'devdc'
 
 # 後述のclass2 apiを利用し、予めログイン用の「認証トークン」(＊ここで言う「APIキー」とは別)を生成しておく。
 session = Chikyu::Sdk::Session.login(
@@ -95,9 +87,6 @@ p key
 ```invoke_public.rb
 require 'chikyu/sdk'
 
-# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
-Chikyu::Sdk::ApiConfig.mode = 'devdc'
-
 # APIキーを指定してインスタンスを生成
 invoker = Chikyu::Sdk::PublicResource.new('api_key', 'auth_key')
 
@@ -115,9 +104,6 @@ p res
 ```create_token.rb
 require 'chikyu/sdk'
 
-# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
-Chikyu::Sdk::ApiConfig.mode = 'devdc'
-
 # ・トークン名称(任意)
 # ・ちきゅうのログイン用メールアドレス
 # ・ちきゅうのログイン用パスワード
@@ -131,9 +117,6 @@ p token
 #### ログインしてセッションを生成する
 ```create_session.rb
 require 'chikyu/sdk'
-
-# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
-Chikyu::Sdk::ApiConfig.mode = 'devdc'
 
 # 上で生成したトークン情報を保存しておき、展開する
 token = {
@@ -164,9 +147,6 @@ session.logout
 
 #### 呼び出しを実行する
 ```invoke_secure.rb
-
-# 2018/05/15現在、まだ本番環境が存在しないため、接続先の指定が必要。
-Chikyu::Sdk::ApiConfig.mode = 'devdc'
 
 # 上で生成したセッション情報を元に、API呼び出し用のリソースを生成する
 invoker = Chikyu::Sdk::SecureResource.new session
