@@ -4,7 +4,7 @@ module Chikyu::Sdk
     @@mode = 'prod'
 
     HOSTS = {
-      local: 'localhost:9090',
+      local: 'localhost:9090',
       docker: 'dev-python:9090',
       devdc: 'gateway.chikyu.mobi',
       dev01: 'gateway.chikyu.mobi',
