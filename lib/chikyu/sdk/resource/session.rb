@@ -21,7 +21,7 @@ module Chikyu::Sdk
       aws_api_key = result[:api_key]
       user = result[:user]
       if aws_api_key.nil? || aws_api_key.empty? || user.nil? || user.empty?
-        raise ApiExecuteError, '組織IDの変更に失敗しました'
+        raise ApiExecuteError, "組織IDの変更に失敗: api_key=#{aws_api_key}, user=#{user}"
       end
       @aws_api_key = aws_api_key
       @user = user
