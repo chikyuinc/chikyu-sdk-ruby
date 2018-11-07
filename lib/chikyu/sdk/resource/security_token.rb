@@ -24,7 +24,6 @@ module Chikyu::Sdk
                data: {token_name: token_name,
                       login_token: login_token,
                       login_secret_token: login_secret_token})
-      item
     end
   end
 end
