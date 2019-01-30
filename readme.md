@@ -108,7 +108,7 @@ require 'chikyu/sdk'
 # ・ちきゅうのログイン用メールアドレス
 # ・ちきゅうのログイン用パスワード
 # ・トークンの有効期限(デフォルトでは24時間 - 秒で指定)
-token = Chikyu::Sdk::SecurityToken.create 'token_name', 'emaill', 'password', 86400
+token = Chikyu::Sdk::SecurityToken.create 'token_name', 'email', 'password', 86400
 
 # トークン情報をファイルなどに保存しておく
 p token
