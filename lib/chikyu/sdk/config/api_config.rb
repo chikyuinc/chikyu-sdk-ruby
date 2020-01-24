@@ -9,6 +9,7 @@ module Chikyu::Sdk
       devdc: 'gateway.chikyu.mobi',
       dev01: 'gateway.chikyu.mobi',
       dev02: 'gateway.chikyu.mobi',
+      dev03: 'gateway-dev.chikyu.mobi',
       hotfix01: 'gateway.chikyu.mobi',
       prod: 'endpoint.chikyu.net'
     }.freeze
@@ -19,6 +20,7 @@ module Chikyu::Sdk
       devdc: 'https',
       dev01: 'https',
       dev02: 'https',
+      dev03: 'https',
       hotfix01: 'https',
       prod: 'https'
     }.freeze
@@ -29,6 +31,7 @@ module Chikyu::Sdk
       devdc: 'dev',
       dev01: 'dev01',
       dev02: 'dev02',
+      dev03: 'dev03',
       hotfix01: 'hotfix01',
       prod: ''
     }.freeze
@@ -42,6 +45,8 @@ module Chikyu::Sdk
         'arn:aws:iam::171608821407:role/Cognito_chikyu_PROD_idpoolAuth_Role'.freeze
       elsif @@mode == 'docker' || @@mode == 'local'
         'arn:aws:iam::527083274078:role/Cognito_ChikyuDevLocalAuth_Role'.freeze
+      elsif @@mode == 'dev03'
+        'arn:aws:iam::527083274078:role/Cognito_Chikyu_Normal_Id_Pool_devAuth_Role'.freeze
       else
         'arn:aws:iam::171608821407:role/Cognito_Chikyu_Normal_Id_PoolAuth_Role'.freeze
       end
