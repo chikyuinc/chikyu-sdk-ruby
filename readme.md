@@ -2,7 +2,7 @@
 ## 概要
 注意：古くなっており、現在は非推奨となっております。
 
-ちきゅうのWeb APIをRubyから利用するためのライブラリです。
+GENIEE SFA/CRM(旧ちきゅう)のWeb APIをRubyから利用するためのライブラリです。
 
 SDKの開発にはRuby 2.2.1を利用しています。
 
@@ -107,8 +107,8 @@ p res
 require 'chikyu/sdk'
 
 # ・トークン名称(任意)
-# ・ちきゅうのログイン用メールアドレス
-# ・ちきゅうのログイン用パスワード
+# ・GENIEE SFA/CRM(旧ちきゅう)のログイン用メールアドレス
+# ・GENIEE SFA/CRM(旧ちきゅう)のログイン用パスワード
 # ・トークンの有効期限(デフォルトでは24時間 - 秒で指定)
 token = Chikyu::Sdk::SecurityToken.create 'token_name', 'email', 'password', 86400
 
